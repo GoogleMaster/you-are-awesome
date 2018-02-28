@@ -46,7 +46,20 @@ const createSerializedObject = () => {
     return null;
 };
 const toBuffer = () => {};
-const sortByProto = (arr) => {};
+const sortByProto = (arr) => {
+    for(let i = 0; i < arr.length; i++){
+        var length = 0;
+        while(arr[i].__proto__){
+            if(arr[i].__proto__ == Object.prototype) break;
+            arr[i] = arr[i].__proto__;
+            length++;
+        }
+        arr[i].length = length;
+    }
+    arr.sort((a,b) => b.length-a.length);
+    for(let i = 0; i < arr.length; i++){delete arr[i].length;}
+    return arr;
+};
 
 exports.createEnumerableProperty = createEnumerableProperty;
 exports.createNotEnumerableProperty = createNotEnumerableProperty;
